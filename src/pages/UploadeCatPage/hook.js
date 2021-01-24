@@ -4,8 +4,8 @@ import { useHistory } from "react-router-dom";
 import { useMessage } from "../../hooks/message.hook";
 
 export function useComponent() {
-  const { loading, request, error } = useHttp();
   const [selectedPictures, setSelectedPictures] = useState([]);
+  const { loading, request, error } = useHttp();
   const history = useHistory();
   const message = useMessage();
 

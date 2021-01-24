@@ -7,20 +7,53 @@ export function useComponent(image) {
   const { request, clearError } = useHttp();
   const message = useMessage();
 
+  const getVotes = async () => {
+    try {
+      const data = await request(
+        "get",
+        null,
+        null,
+        "https://api.thecatapi.com/v1/votes",
+      );
+
+      if (data.length) {
+        return data;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const voteUp = async () => {
     try {
       let post_data = {
         image_id: image.id,
-        sub_id: "413",
+        sub_id: "v413",
         value: 1,
       };
-      let responseData = await request(
-        "post",
-        { "Content-Type": "application/json" },
-        post_data,
-        "https://api.thecatapi.com/v1/votes",
-      );
-      getVotes(post_data);
+
+      const currentVotes = await getVotes();
+      const checkedArray = checkForDuplicates(post_data, currentVotes);
+      if (checkedArray && checkedArray.length === 1) {
+        message("Sorry, you cannot vote/unvote more than once for one cat");
+        return;
+      } else {
+        try {
+          let responseData = await request(
+            "post",
+            { "Content-Type": "application/json" },
+            post_data,
+            "https://api.thecatapi.com/v1/votes",
+          );
+          if (responseData.message === "SUCCESS") {
+            const numberOfVotes = calculateVotes(await getVotes());
+            setVotes(numberOfVotes);
+            return numberOfVotes;
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
     } catch (error) {
       console.error(error);
     }
@@ -30,35 +63,39 @@ export function useComponent(image) {
     try {
       let post_data = {
         image_id: image.id,
-        sub_id: "413",
+        sub_id: "v413",
         value: 0,
       };
+      const currentVotes = await getVotes();
+      const checkedArray = checkForDuplicates(post_data, currentVotes);
+      if (checkedArray && checkedArray.length === 1) {
+        message("Sorry, you cannot vote/unvote more than once for one cat");
+        return;
+      }
       let responseData = await request(
         "post",
         { "Content-Type": "application/json" },
         post_data,
         "https://api.thecatapi.com/v1/votes",
       );
-      console.log("data", responseData);
-      getVotes(post_data);
+      if (responseData.message === "SUCCESS") {
+        const numberOfVotes = calculateVotes(await getVotes());
+        setVotes(numberOfVotes);
+        return numberOfVotes;
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
   const checkForDuplicates = (post_data, data) => {
-    if (!post_data) {
-      return null;
-    } else {
-      const filteredData = data.filter(
-        (item) =>
-          post_data.image_id === item.image_id &&
-          post_data.sub_id === item.sub_id &&
-          post_data.value === item.value,
-      );
-      console.log(data, filteredData);
-      return filteredData;
-    }
+    const filteredData = data.filter(
+      (item) =>
+        post_data.image_id === item.image_id &&
+        post_data.sub_id === item.sub_id &&
+        post_data.value === item.value,
+    );
+    return filteredData;
   };
 
   const calculateVotes = (data) => {
@@ -70,34 +107,14 @@ export function useComponent(image) {
     }, 0);
   };
 
-  const getVotes = async (post_data) => {
-    try {
-      const data = await request(
-        "get",
-        null,
-        null,
-        "https://api.thecatapi.com/v1/votes",
-      );
-
-      if (data.length) {
-        const checkedArray = checkForDuplicates(post_data, data);
-
-        if (checkedArray && checkedArray.length > 1) {
-          message("Sorry, you cannot vote/unvote more than once for one cat");
-          return;
-        }
-
-        const numberOfVotes = calculateVotes(data);
-        setVotes(numberOfVotes);
-        return numberOfVotes;
-      }
-    } catch (error) {
-      console.error(error);
-    }
+  const fetchVotes = async () => {
+    const currentVotes = await getVotes();
+    setVotes(calculateVotes(currentVotes));
   };
 
   useEffect(() => {
-    getVotes(null);
+    fetchVotes();
+
     return () => {
       clearError();
     };

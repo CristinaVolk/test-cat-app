@@ -1,10 +1,10 @@
-import { useState, useCallback } from "react";
 import axios from "axios";
+import { useState, useCallback } from "react";
 import { useMessage } from "./message.hook";
 
 export const useHttp = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
   const message = useMessage();
 
   const request = useCallback(
@@ -15,7 +15,7 @@ export const useHttp = () => {
           method: method,
           headers: {
             "Access-Control-Allow-Origin": "*",
-            "x-api-key": process.env.REACT_APP_API_ACCESS_KEY,
+            "x-api-key": process.env.REACT_APP_THE_CAT_API_ACCESS_KEY,
             ...headers,
           },
           data: data,
@@ -24,8 +24,6 @@ export const useHttp = () => {
 
         const response = await axios(options);
 
-        //console.log(response);
-
         if (response.data) {
           setLoading(false);
           return response.data;
@@ -33,7 +31,6 @@ export const useHttp = () => {
       } catch (err) {
         if (err.response) {
           if (err.response.status === 400) {
-            console.log(err.response.data.message);
             setError(err.response.data.message);
             message(`Error: ${err.response.data.message}`);
           } else if (err.response.status === 500) {

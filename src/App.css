@@ -6,9 +6,10 @@ body {
   color: #d6c7cf;
   margin: 0px;
   background-image: url("/src/assets/background.jpg");
-  background-repeat: round;
+  background-repeat: no-repeat;
   opacity: 0.82;
   cursor: default;
+  /*height: 100vw;*/
 }
 
 .trails-wrapper {
@@ -228,4 +229,15 @@ img {
   display: flex;
   justify-content: center;
   padding-top: 2rem;
+}
+
+.fileUploader {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+.fileContainer {
+  width: 50vw;
 }
