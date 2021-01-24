@@ -1,0 +1,231 @@
+@import url("https://rsms.me/inter/inter.css");
+@import "~materialize-css/dist/css/materialize.min.css";
+
+body {
+  font-family: "Trebuchet MS", sans-serif;
+  color: #d6c7cf;
+  margin: 0px;
+  background-image: url("/src/assets/background.jpg");
+  background-repeat: round;
+  opacity: 0.82;
+  cursor: default;
+}
+
+.trails-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.trails-main {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.transitions-item {
+  line-height: 60px;
+  color: black;
+  font-size: 5em;
+  font-weight: 800;
+  letter-spacing: 3px;
+  will-change: transform, opacity;
+  overflow: hidden;
+}
+
+.hooks-main > svg {
+  display: none;
+}
+
+.hooks-main > div {
+  position: absolute;
+  will-change: transform;
+  border-radius: 50%;
+  background: #d6c7cf;
+  box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+  opacity: 0.3;
+}
+
+.hooks-main > div:nth-child(1) {
+  width: 120px;
+  height: 120px;
+}
+
+.hooks-main > div:nth-child(2) {
+  width: 150px;
+  height: 150px;
+}
+
+.hooks-main > div:nth-child(3) {
+  width: 100px;
+  height: 100px;
+}
+
+.hooks-main > div::after {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.hooks-main > div:nth-child(2)::after {
+  top: 70px;
+  left: 70px;
+  width: 70px;
+  height: 70px;
+}
+
+.hooks-main > div:nth-child(3)::after {
+  top: 50px;
+  left: 50px;
+  width: 50px;
+  height: 50px;
+}
+
+.hooks-main {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  filter: url("#goo");
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 94vh;
+  justify-content: space-around;
+  /*align-items: center;*/
+}
+
+.cats-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  height: 65vh;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  background-color: #0c1d25;
+  height: 70px;
+}
+
+.logo {
+  max-width: 70px;
+  position: absolute;
+  left: 5px;
+  top: 0;
+  border: none;
+  padding: 0;
+}
+
+.navbar-link {
+  display: flex;
+  list-style: none;
+}
+
+.navbar-link-item {
+  cursor: pointer;
+  font-size: 1.2em;
+  background: #444857;
+  margin: 2px 5px 2px;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+a:link {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+a:active {
+  background: #0c1d25;
+}
+
+nav ul a {
+  transition: background-color 0.3s;
+  font-size: 1rem;
+  color: #fff;
+  display: block;
+  padding: 0 15px;
+  cursor: pointer;
+}
+
+.button {
+  margin: 0 1vw;
+  background-color: #d6c7cf;
+  border-radius: 5px;
+  border: transparent;
+  width: 50px;
+  height: 50px;
+}
+
+.images {
+  display: flex;
+  justify-content: center;
+}
+
+.fa_custom {
+  color: #952643;
+  font-size: 41px;
+  margin: 5px;
+}
+
+.button svg {
+  filter: drop-shadow(3px 3px 3px #999);
+  transition: 0.3s;
+  transform: rotate(-0.2deg);
+}
+
+.button svg:hover {
+  filter: drop-shadow(4px 4px 4px #999);
+  transform: rotate(-0.6deg);
+  cursor: pointer;
+}
+
+.fa-icons {
+  display: flex;
+  margin: 0 0 20px 20px;
+}
+
+img {
+  max-height: 420px;
+  width: 340px;
+  padding: 10px;
+  border: 1px dashed #999;
+  margin-right: 30px;
+  margin-left: 10px;
+}
+
+.voteFrame {
+  font-size: 1.9rem;
+  margin-right: 5px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding-top: 2rem;
+}
