@@ -8,7 +8,7 @@ export const Navbar = () => {
 
   return (
     <nav className='navbar' ref={navBarRef}>
-      <a href='https://github.com/CristinaVolk'>
+      <a href='https://github.com/CristinaVolk/test-cat-app'>
         {!isMobile ? <img className='logo' src={Logo} alt='logo' /> : null}
       </a>
       <ul className='navbar-link'>
