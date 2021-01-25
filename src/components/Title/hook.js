@@ -40,7 +40,7 @@ export function useComponent() {
     );
   }, []);
 
-  useEffect(() => void reset(), []);
+  useEffect(() => void reset(), [reset]);
 
   return { transitions, reset };
 }

@@ -5,7 +5,6 @@ import { Navbar } from "./components/Navbar";
 import "materialize-css";
 import "./App.css";
 
-
 function App() {
   const routes = useRoutes();
 

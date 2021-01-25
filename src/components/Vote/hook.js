@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useHttp } from "../../hooks/http.hook";
 import { useMessage } from "../../hooks/message.hook";
 
@@ -7,7 +7,7 @@ export function useComponent(image) {
   const { request, clearError } = useHttp();
   const message = useMessage();
 
-  const getVotes = async () => {
+  const getVotes = useCallback(async () => {
     try {
       const data = await request(
         "get",
@@ -22,7 +22,7 @@ export function useComponent(image) {
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [request]);
 
   const voteUp = async () => {
     try {
@@ -98,19 +98,22 @@ export function useComponent(image) {
     return filteredData;
   };
 
-  const calculateVotes = (data) => {
-    const filteredImgs = data.filter((item) => item.image_id === image.id);
-    const filterVotes = filteredImgs.map((item) => item.value);
+  const calculateVotes = useCallback(
+    (data) => {
+      const filteredImgs = data.filter((item) => item.image_id === image.id);
+      const filterVotes = filteredImgs.map((item) => item.value);
 
-    return filterVotes.reduce((total, num) => {
-      return total + num;
-    }, 0);
-  };
+      return filterVotes.reduce((total, num) => {
+        return total + num;
+      }, 0);
+    },
+    [image.id],
+  );
 
-  const fetchVotes = async () => {
+  const fetchVotes = useCallback(async () => {
     const currentVotes = await getVotes();
     setVotes(calculateVotes(currentVotes));
-  };
+  }, [calculateVotes, getVotes]);
 
   useEffect(() => {
     fetchVotes();
@@ -118,7 +121,7 @@ export function useComponent(image) {
     return () => {
       clearError();
     };
-  }, []);
+  }, [fetchVotes, clearError]);
 
   return { votes, voteUp, voteDown };
 }
